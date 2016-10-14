@@ -50,6 +50,7 @@ public class GhostActivity extends AppCompatActivity {
        bChallege.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               challegehandler();
 
            }
        });
@@ -60,12 +61,26 @@ public class GhostActivity extends AppCompatActivity {
 
           }
       });
-
-
-
-
     }
 
+
+    private void challegehandler(){
+
+        String word=input.getText().toString();
+        String nextWord;
+        if(word.length()>=4 && dictionary.isWord(word)){
+            endGame(true);
+        }else{
+            nextWord=dictionary.getAnyWordStartingWith(word);
+            if (nextWord!=null){
+                endGame(false);
+                (Toast.makeText(this,"Word Exists"+nextWord,Toast.LENGTH_LONG)).show();
+            }else{
+                endGame(true);
+            }
+        }
+
+    }
 
 
 
@@ -120,12 +135,12 @@ public class GhostActivity extends AppCompatActivity {
        String text=input.getText().toString();
         String nextWord;
         if (text.length()>=4 && dictionary.isWord(text)){
-            endGame();
+            endGame(false);
             return;
         }else{
             nextWord=dictionary.getAnyWordStartingWith(text);
             if (nextWord==null){
-                endGame();
+                endGame(false);
                 return;
             }else {
                 addTextToGame(nextWord.charAt(text.length()));
@@ -135,8 +150,15 @@ public class GhostActivity extends AppCompatActivity {
         userTurn = true;
         gamestatus.setText(USER_TURN);
     }
-    private void endGame(){
-        input.setText("Computer Win");
+    private void endGame(boolean win){
+
+        if (win){
+            input.setText("User Win");
+        }
+        else{
+            input.setText("Computer Win");
+        }
+
         gamestatus.setText("");
         userTurn=true;
     }
