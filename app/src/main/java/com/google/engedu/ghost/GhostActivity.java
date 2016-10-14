@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,9 @@ public class GhostActivity extends AppCompatActivity {
     private GhostDictionary dictionary;
     private boolean userTurn = false;
     private Random random = new Random();
+    private Button bChallege,bRestart;
+    private TextView input,gamestatus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,13 @@ public class GhostActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, "Could not load dictionary", Toast.LENGTH_LONG);
             toast.show();
         }
+
+        bRestart=(Button)findViewById(R.id.restart);
+        bChallege=(Button)findViewById(R.id.challege);
+        input=(TextView)findViewById(R.id.ghostText);
+        gamestatus=(TextView)findViewById(R.id.gameStatus);
+
+
         onStart(null);
     }
 
@@ -58,6 +69,12 @@ public class GhostActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
+
+
+
     /**
      * Handler for the "Reset" button.
      * Randomly determines whether the game starts with a user turn or a computer turn.
@@ -68,11 +85,11 @@ public class GhostActivity extends AppCompatActivity {
         userTurn = random.nextBoolean();
         TextView text = (TextView) findViewById(R.id.ghostText);
         text.setText("");
-        TextView label = (TextView) findViewById(R.id.gameStatus);
+
         if (userTurn) {
-            label.setText(USER_TURN);
+            gamestatus.setText(USER_TURN);
         } else {
-            label.setText(COMPUTER_TURN);
+            gamestatus.setText(COMPUTER_TURN);
             computerTurn();
         }
         return true;
@@ -82,6 +99,8 @@ public class GhostActivity extends AppCompatActivity {
         TextView label = (TextView) findViewById(R.id.gameStatus);
         // Do computer turn stuff then make it the user's turn again
         userTurn = true;
-        label.setText(USER_TURN);
+        gamestatus.setText(USER_TURN);
     }
+
+
 }
