@@ -23,8 +23,32 @@
         android:text="Starting game"
         android:id="@+id/gameStatus"
         android:layout_below="@+id/ghostText"
+        android:layout_toLeftOf="@+id/restart"
+        android:layout_toStartOf="@+id/restart"
+        android:layout_marginTop="41dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Challenge"
+        android:id="@+id/challege"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/gameStatus"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="restart"
+        android:id="@+id/restart"
+        android:layout_alignTop="@+id/challege"
+        android:layout_toRightOf="@+id/challege"
+        android:layout_toEndOf="@+id/challege"
+        android:layout_marginLeft="41dp"
+        android:layout_marginStart="41dp" />
 
 
 </RelativeLayout>
