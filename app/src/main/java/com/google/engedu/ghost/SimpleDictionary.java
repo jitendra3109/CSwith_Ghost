@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SimpleDictionary implements GhostDictionary {
     private ArrayList<String> words;
+    private Random random=new Random();
 
     public SimpleDictionary(InputStream wordListStream) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(wordListStream));
@@ -27,6 +29,27 @@ public class SimpleDictionary implements GhostDictionary {
 
     @Override
     public String getAnyWordStartingWith(String prefix) {
+      /*        for (String s:words ) {
+              if (s.startsWith(prefix))
+                  return s;
+           }*/
+           if (prefix==null || prefix.equals("")){
+               return words.get(random.nextInt(words.size()));
+           }
+        int l=0,r=words.size()-1,mid;
+        while (l<=r){
+            mid=(l+r)/2;
+            if (words.get(mid).startsWith(prefix)){
+                return words.get(mid);
+            }
+            if (words.get(mid).compareTo(prefix)>0){
+                r=mid+1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+
         return null;
     }
 
