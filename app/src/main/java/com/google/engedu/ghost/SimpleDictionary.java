@@ -42,8 +42,8 @@ public class SimpleDictionary implements GhostDictionary {
             if (words.get(mid).startsWith(prefix)){
                 return words.get(mid);
             }
-            if ((words.get(mid).compareTo(prefix))>0){
-                r=mid+1;
+            if (words.get(mid).compareTo(prefix)>0){
+                r=mid-1;
             }
             else{
                 l=mid+1;

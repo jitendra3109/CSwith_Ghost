@@ -23,7 +23,8 @@ public class GhostActivity extends AppCompatActivity {
     private boolean userTurn = false;
     private Random random = new Random();
     private Button bChallege, bRestart;
-    private TextView input, gamestatus;
+    private TextView input, gamestatus,userScore,computerScore;
+    private int scoreUSer=0,scoreComputer=0;
 
 
     @Override
@@ -34,6 +35,7 @@ public class GhostActivity extends AppCompatActivity {
         try {
             InputStream inputStream = assetManager.open("words.txt");
             dictionary = new SimpleDictionary(inputStream);
+            //dictionary = new FastDictionary(inputStream);
         } catch (IOException e) {
             Toast toast = Toast.makeText(this, "Could not load dictionary", Toast.LENGTH_LONG);
             toast.show();
@@ -43,6 +45,8 @@ public class GhostActivity extends AppCompatActivity {
         bChallege = (Button) findViewById(R.id.challege);
         input = (TextView) findViewById(R.id.ghostText);
         gamestatus = (TextView) findViewById(R.id.gameStatus);
+        userScore = (TextView) findViewById(R.id.textView);
+        computerScore = (TextView) findViewById(R.id.textView2);
 
 
         onStart(null);
@@ -58,6 +62,7 @@ public class GhostActivity extends AppCompatActivity {
       bRestart.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              onStart(null);
 
           }
       });
@@ -107,6 +112,28 @@ public class GhostActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected  void onSaveInstanceState(Bundle outstate){
+        outstate.putString("WORD",input.getText().toString());
+        outstate.putString("LEBEL",gamestatus.getText().toString());
+        outstate.putInt("SCORE_USER",scoreUSer);
+        outstate.putInt("SCORE_COMPUTER",scoreComputer);
+        super.onSaveInstanceState(outstate);
+      }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        if (savedInstanceState!=null){
+            input.setText(savedInstanceState.getString("WORD"));
+            gamestatus.setText(savedInstanceState.getString("LEBEL"));
+            userTurn=true;
+            scoreComputer=savedInstanceState.getInt("SCORE_COMPUTER");
+            scoreUSer=savedInstanceState.getInt("SCORE_USER");
+
+            updateScoreBoard();
+        }
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 
     /**
      * Handler for the "Reset" button.
@@ -154,16 +181,24 @@ public class GhostActivity extends AppCompatActivity {
 
         if (win){
             input.setText("User Win");
+            scoreUSer+=1;
         }
         else{
             input.setText("Computer Win");
+            scoreComputer+=1;
         }
-
+       updateScoreBoard();
         gamestatus.setText("");
         userTurn=true;
     }
     private void addTextToGame(char c){
         input.setText(input.getText().toString()+c);
+    }
+
+
+    private void updateScoreBoard(){
+        userScore.setText("Your: "+scoreUSer+"");
+        computerScore.setText("Computer: "+scoreComputer+"");
     }
 
     @Override
